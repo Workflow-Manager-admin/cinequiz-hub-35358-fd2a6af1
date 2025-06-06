@@ -44,11 +44,32 @@ export default function MovieMemoryTrainer({ industry }) {
     }
   }, [stage]);
 
+  // Regular expression for Tamil script detection
+  const isTamilScript = (text) =>
+    /[஀-௿]/.test(text);
+
   const handleInput = (e) => {
     setAnswers((a) => ({ ...a, [e.target.name]: e.target.value }));
   };
 
   const checkAnswers = () => {
+    // Validate all fields for Tamil script
+    if (
+      isTamilScript(answers.director) ||
+      isTamilScript(answers.year) ||
+      isTamilScript(answers.genre)
+    ) {
+      setFeedback({
+        director: "",
+        year: "",
+        genre: ""
+      });
+      setStage("recall");
+      alert(
+        "All answers must be in English (romanized). Do not use Tamil script for any field."
+      );
+      return;
+    }
     let fdbk = {};
     let sc = 0;
     // Director
@@ -149,6 +170,18 @@ export default function MovieMemoryTrainer({ industry }) {
         >
           <div style={{ marginBottom: 12, color: "#654899" }}>
             <b>Recall details:</b>
+          </div>
+          <div style={{
+            fontSize: "1.01rem",
+            color: "#b90058",
+            background: "#fff8e8",
+            padding: "7px 10px",
+            borderRadius: 5,
+            border: "1px solid #faecbe",
+            marginBottom: 7,
+            maxWidth: 320
+          }}>
+            <b>Note:</b> Write all answers in <b>English (romanized)</b>. Do not use Tamil script.
           </div>
           <label>
             Director:

@@ -41,13 +41,25 @@ export default function ObjectBasedMovieGuess({ industry }) {
     // eslint-disable-next-line
   }, [quizNum, industry]);
 
+  // Regular expression for Tamil Unicode range
+  const isTamilScript = (text) =>
+    /[஀-௿]/.test(text);
+
   const checkGuess = () => {
     if (!game.userGuess.trim()) return;
-    const guess = game.userGuess.trim().toLowerCase();
+    const guess = game.userGuess.trim();
+    if (isTamilScript(guess)) {
+      setGame((g) => ({
+        ...g,
+        feedback: "Please enter your answer in English (romanized)! Do not use Tamil script."
+      }));
+      return;
+    }
+    const lowerGuess = guess.toLowerCase();
     const answer = (game.movie.title || game.movie.original_title || "").toLowerCase();
     if (game.answerShown) {
       setGame((g) => ({ ...g, feedback: "Answer revealed. No points awarded." }));
-    } else if (guess === answer) {
+    } else if (lowerGuess === answer) {
       setGame((g) => ({ ...g, feedback: "Correct! 🎉" }));
       setScore((sc) => sc + 1);
     } else {
@@ -99,6 +111,19 @@ export default function ObjectBasedMovieGuess({ industry }) {
       }}>
         Guess the movie from the object shown (a small part of a poster)!
       </div>
+      <div style={{
+        marginTop: 20,
+        marginBottom: 5,
+        fontSize: "1.02rem",
+        color: "#b90058",
+        background: "#fff8e8",
+        padding: "8px 12px",
+        borderRadius: 5,
+        border: "1px solid #faecbe",
+        maxWidth: 500
+      }}>
+        <b>Note:</b> Please write your answer in <b>English (romanized)</b> only, even for Tamil movies.
+      </div>
       <div style={{ display: "flex", justifyContent: "center", margin: "30px auto" }}>
         {game.movie.poster_path && (
           // Show only the top-left quadrant of the poster as "the object"
@@ -132,7 +157,7 @@ export default function ObjectBasedMovieGuess({ industry }) {
       >
         <input
           type="text"
-          placeholder="Movie title"
+          placeholder="Movie title (in English only)"
           value={game.userGuess}
           onChange={handleInput}
           autoComplete="off"

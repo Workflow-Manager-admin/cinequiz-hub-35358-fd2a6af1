@@ -53,13 +53,26 @@ export default function MovieIQChallenge({ industry }) {
     // eslint-disable-next-line
   }, [quizNum, industry]);
 
+  // Regular expression that matches Tamil Unicode range
+  const isTamilScript = (text) =>
+    /[஀-௿]/.test(text);
+
   const checkGuess = () => {
     if (!game.userGuess.trim()) return;
-    const guess = game.userGuess.trim().toLowerCase();
+    const guess = game.userGuess.trim();
+    if (isTamilScript(guess)) {
+      setGame((g) => ({
+        ...g,
+        feedback:
+          "Please enter your answer in English (romanized)! Do not use Tamil script."
+      }));
+      return;
+    }
+    const lowerGuess = guess.toLowerCase();
     const answer = (game.movie.title || game.movie.original_title || "").toLowerCase();
     if (game.answerShown) {
       setGame((g) => ({ ...g, feedback: "Answer revealed. No points awarded." }));
-    } else if (guess === answer) {
+    } else if (lowerGuess === answer) {
       setGame((g) => ({ ...g, feedback: "Correct! 🎉" }));
       setScore((sc) => sc + 1);
     } else {
@@ -114,13 +127,26 @@ export default function MovieIQChallenge({ industry }) {
         Director: <b>{game.director || "Unknown"}</b>
         <span style={{ marginLeft: 18 }}>Year: <b>{game.year || "?"}</b></span>
       </div>
+      <div style={{
+        marginTop: 20,
+        marginBottom: 5,
+        fontSize: "1.02rem",
+        color: "#b90058",
+        background: "#fff8e8",
+        padding: "8px 12px",
+        borderRadius: 5,
+        border: "1px solid #faecbe",
+        maxWidth: 500
+      }}>
+        <b>Note:</b> Answers must be entered in <b>English (romanized)</b> only. Do not use Tamil script for any answer.
+      </div>
       <form
         onSubmit={e => { e.preventDefault(); checkGuess(); }}
-        style={{ marginTop: 27, display: "flex", alignItems: "center", gap: 16 }}
+        style={{ marginTop: 16, display: "flex", alignItems: "center", gap: 16 }}
       >
         <input
           type="text"
-          placeholder="Movie title"
+          placeholder="Movie title (in English only)"
           value={game.userGuess}
           onChange={handleInput}
           autoComplete="off"
