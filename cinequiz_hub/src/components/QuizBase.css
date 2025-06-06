@@ -21,6 +21,13 @@
   font-size: 1.45rem;
   font-weight: 700;
   flex: 1;
+  color: #000 !important;
+}
+
+.quiz-game-body h3,
+.quiz-game-body .quiz-main-title,
+.quiz-game-body .title {
+  color: #000 !important;
 }
 
 .quiz-game-body {

@@ -19,6 +19,12 @@
   border: 2px solid #cf5df8 !important;
 }
 
+.auth-panel h1,
+.auth-panel h2,
+.auth-panel .title {
+  color: #000 !important;
+}
+
 .auth-panel form {
   display: flex;
   flex-direction: column;
