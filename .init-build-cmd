@@ -1,0 +1,4 @@
+{
+    "command": "npm install && npx tsc --noEmit && npm test -- --ci",
+    "working_directory": "/home/kavia/workspace/code-generation/cinequiz-hub-35358-fd2a6af1/cinequiz_hub"
+}
