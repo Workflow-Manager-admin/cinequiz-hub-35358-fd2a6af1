@@ -1,0 +1,137 @@
+.dashboard-bg {
+  min-height: 100vh;
+  background: linear-gradient(110deg, #f8f9fc 65%, #cf5df8 120%);
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-navbar {
+  background: #fff;
+  box-shadow: 0 3px 20px rgba(63, 18, 81, 0.07);
+  padding: 16px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #cf5df8;
+}
+
+.dashboard-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.dashboard-main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  padding: 40px 0 20px;
+  gap: 34px;
+}
+
+.industry-col {
+  background: #fff;
+  border-radius: 10px;
+  flex: 1 1 0px;
+  margin: 0 8px;
+  min-width: 330px;
+  max-width: 440px;
+  box-shadow: 0 0 32px #8d72b3ad;
+  padding: 32px 24px 22px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.industry-col h2 {
+  color: #cf5df8;
+  font-size: 2rem;
+  letter-spacing: 0.01em;
+  margin-bottom: 24px;
+  font-weight: 700;
+}
+
+.quiz-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.quiz-card {
+  background: #f5f0fc;
+  padding: 18px 18px 10px 18px;
+  border-radius: 6px;
+  box-shadow: 0 2px 16px rgba(128, 45, 172, 0.1);
+  margin-bottom: 8px;
+}
+
+.quiz-card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.quiz-name {
+  font-size: 1.18rem;
+  font-weight: 650;
+  color: #654899;
+}
+
+.quiz-desc {
+  font-size: 1rem;
+  color: #685880;
+  margin: 4px 0 8px 0;
+}
+
+.quiz-btn {
+  background: #cf5df8;
+  color: #fff;
+  font-weight: 500;
+  border-radius: 5px;
+  font-size: 1rem;
+  padding: 9px 18px;
+  margin-top: 7px;
+  border: none;
+  box-shadow: 0 0 8px #c9c2e3a0;
+  cursor: pointer;
+}
+
+.quiz-btn.kolly {
+  background: #3e1595;
+}
+
+.dashboard-user-controls {
+  display: flex;
+  align-items: center;
+  gap: 17px;
+}
+
+.username-badge {
+  padding: 6px 13px;
+  background: #cf5df8;
+  font-weight: 700;
+  color: #fff;
+  border-radius: 100px;
+  margin-right: 10px;
+  font-size: 1rem;
+}
+
+.logout-btn {
+  background: #0d0c0c;
+  color: #fff;
+  border-radius: 19px;
+  font-size: 1rem;
+  padding: 6px 16px;
+  font-weight: 600;
+  border: none;
+  box-shadow: 0 0 5px #3e255b08;
+  cursor: pointer;
+  margin-left: 20px;
+}
+
+.btn-small {
+  padding: 7px 15px;
+  font-size: 0.87rem;
+}

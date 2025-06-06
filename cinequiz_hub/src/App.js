@@ -1,35 +1,80 @@
-import React from 'react';
-import './App.css';
+import React, { useState, useCallback, useEffect } from "react";
+import "./App.css";
+import Auth from "./components/Auth";
+import Dashboard from "./components/Dashboard";
+import QuizLoader from "./components/QuizLoader";
 
 function App() {
+  // State: user (username), route (dashboard, or quiz), quiz info
+  const [user, setUser] = useState("");
+  const [stage, setStage] = useState("loading"); // loading | login | dashboard | quiz
+  const [quiz, setQuiz] = useState({
+    key: "",
+    industry: "",
+  });
+
+  // On initial mount, check login
+  useEffect(() => {
+    if (localStorage.getItem("cinequiz_logged_in") === "1") {
+      setUser(localStorage.getItem("cinequiz_user") || "");
+      setStage("dashboard");
+    } else {
+      setStage("login");
+    }
+  }, []);
+
+  // Handle authentication success (from Auth)
+  const handleAuthSuccess = (username) => {
+    setUser(username);
+    setStage("dashboard");
+  };
+
+  // Select quiz to play (from Dashboard)
+  const handleQuizSelect = (quizKey, industry) => {
+    setQuiz({ key: quizKey, industry });
+    setStage("quiz");
+  };
+
+  // Handle logout
+  const handleLogout = useCallback(() => {
+    setUser("");
+    setStage("login");
+  }, []);
+
+  // Return to dashboard
+  const goHome = useCallback(() => {
+    setStage("dashboard");
+    setQuiz({ key: "", industry: "" });
+  }, []);
+
+  // Render logic
   return (
     <div className="app">
-      <nav className="navbar">
-        <div className="container">
-          <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-            <div className="logo">
-              <span className="logo-symbol">*</span> KAVIA AI
-            </div>
-            <button className="btn">Template Button</button>
-          </div>
+      {stage === "login" && <Auth onAuthSuccess={handleAuthSuccess} />}
+      {stage === "dashboard" && (
+        <Dashboard
+          currentUser={user}
+          onSelectQuiz={handleQuizSelect}
+          onLogout={handleLogout}
+        />
+      )}
+      {stage === "quiz" && (
+        <QuizLoader
+          quizKey={quiz.key}
+          industry={quiz.industry}
+          onHome={goHome}
+        />
+      )}
+      {stage === "loading" && (
+        <div style={{
+          minHeight: "100vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center"
+        }}>
+          <div>Loading CineQuiz Hub...</div>
         </div>
-      </nav>
-
-      <main>
-        <div className="container">
-          <div className="hero">
-            <div className="subtitle">AI Workflow Manager Template</div>
-            
-            <h1 className="title">cinequiz_hub</h1>
-            
-            <div className="description">
-              Start building your application.
-            </div>
-            
-            <button className="btn btn-large">Button</button>
-          </div>
-        </div>
-      </main>
+      )}
     </div>
   );
 }
